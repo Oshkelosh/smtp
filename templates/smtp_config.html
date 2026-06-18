@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% from "_macros.html" import csrf_field with context %}
+
+{% block title %}SMTP Settings{% endblock %}
+
+{% block content %}
+<h1>SMTP Email</h1>
+
+<div class="card">
+    <h2>Configuration</h2>
+    {% if config %}
+    <div class="alert alert--info" style="margin-bottom:1em;">
+        <strong>Status:</strong> {% if addon and addon.is_enabled %}Enabled{% else %}Disabled{% endif %}
+    </div>
+    {% endif %}
+
+    <form method="post" action="/admin/notifications/smtp/save" class="form">
+        {{ csrf_field() }}
+        <div class="form-group">
+            <label for="host">SMTP Host</label>
+            <input type="text" id="host" name="host" value="{{ config.get('host', '') }}"
+                   placeholder="smtp.example.com" />
+        </div>
+        <div class="form-group">
+            <label for="port">Port</label>
+            <input type="number" id="port" name="port" value="{{ config.get('port', 587) }}" />
+        </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" value="{{ config.get('username', '') }}" />
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" value="{{ config.get('password', '') }}" />
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="use_tls" {% if config.get('use_tls', True) %}checked{% endif %} />
+                Use STARTTLS
+            </label>
+        </div>
+        <div class="form-group">
+            <label for="from_address">From Address</label>
+            <input type="email" id="from_address" name="from_address"
+                   value="{{ config.get('from_address', '') }}" />
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="is_enabled" {% if addon and addon.is_enabled %}checked{% endif %} />
+                Only one provider per channel can be enabled at a time.
+            </label>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn--primary">Save Configuration</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
