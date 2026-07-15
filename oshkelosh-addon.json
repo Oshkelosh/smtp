@@ -1,0 +1,9 @@
+{
+  "addon_id": "smtp",
+  "addon_name": "SMTP",
+  "addon_description": "Send transactional emails via SMTP.",
+  "category": "notification",
+  "version": "1.0.0",
+  "min_oshkelosh_version": "0.1.0",
+  "python_requires": ">=3.11"
+}
